@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime @default(now())
+
+  ownedBoards    Board[]        @relation("BoardOwner")
+  boardMembers   BoardMember[]
+  assignedCards  Card[]         @relation("CardAssignee")
+  activityLogs   ActivityLog[]
+}
+
+model Board {
+  id        String   @id @default(uuid())
+  name      String
+  ownerId   String
+  owner     User     @relation("BoardOwner", fields: [ownerId], references: [id])
+  createdAt DateTime @default(now())
+
+  members      BoardMember[]
+  lists        List[]
+  activityLogs ActivityLog[]
+}
+
+model BoardMember {
+  boardId String
+  userId  String
+  board   Board @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  user    User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([boardId, userId])
+}
+
+model List {
+  id        String   @id @default(uuid())
+  boardId   String
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  title     String
+  position  Float
+  createdAt DateTime @default(now())
+
+  cards Card[]
+
+  @@index([boardId])
+}
+
+model Card {
+  id          String    @id @default(uuid())
+  listId      String
+  list        List      @relation(fields: [listId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  dueDate     DateTime?
+  assigneeId  String?
+  assignee    User?     @relation("CardAssignee", fields: [assigneeId], references: [id])
+  position    Float
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([listId])
+}
+
+enum ActivityTargetType {
+  BOARD
+  LIST
+  CARD
+}
+
+model ActivityLog {
+  id         String             @id @default(uuid())
+  boardId    String
+  board      Board              @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User               @relation(fields: [userId], references: [id])
+  action     String
+  targetType ActivityTargetType
+  targetId   String
+  createdAt  DateTime           @default(now())
+
+  @@index([boardId, createdAt])
+}
