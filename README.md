@@ -3,7 +3,8 @@
 A full-stack, real-time collaborative kanban board — built to get hands-on with how tools like Trello and Linear handle live multi-user sync, drag-and-drop state, and conflict resolution under the hood.
 
 **Demo login:** `demo@taskflow.dev` / `password123`
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/4c952e08-9d75-4e21-ad42-1d4b12b2b524" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e9c816a0-08f8-42a9-8ac5-1591be3a44fc" />
+
 
 ---
 
