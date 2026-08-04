@@ -3,6 +3,7 @@
 A full-stack, real-time collaborative kanban board — built to get hands-on with how tools like Trello and Linear handle live multi-user sync, drag-and-drop state, and conflict resolution under the hood.
 
 **Demo login:** `demo@taskflow.dev` / `password123`
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/4c952e08-9d75-4e21-ad42-1d4b12b2b524" />
 
 ---
 
@@ -149,14 +150,6 @@ All routes are prefixed with `/api`. Protected routes require a valid session co
 
 Real-time events (Socket.io, one room per board: `board:<id>`): `list:created`, `list:updated`, `list:deleted`, `card:created`, `card:updated`, `card:deleted`, `activity:created`.
 
-## What's next
-
-If I keep working on this, in rough order of what I'd actually tackle:
-
-- CRDT-based conflict resolution, replacing the current last-write-wins approach
-- Per-member roles instead of flat membership
-- Automated position rebalancing
-- Tightening socket-level access checks to match the REST layer
 
 ---
 
